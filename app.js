@@ -1,3 +1,4 @@
+require('dontenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -16,7 +17,7 @@ const swaggerOption ={
         },
         servers:[
             {
-              url: 'certusapp-production.up.railway.app'
+                url: 'certusapp-production.up.railway.app'
             },
             {
                 url:'http://localhost:5000'
@@ -29,8 +30,9 @@ const swaggerOption ={
 const swaggerDoc =swaggerJsdoc(swaggerOption);
 app.use('/api-docs', swaggerUi.serve,swaggerUi.setup(swaggerDoc));
 app.use(express.json());
+app.use(cors());
 
-const MONGO_URI = 'mongodb+srv://renato:RenatoPPA20.@cluster0.kbiyfqo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const MONGO_URI = process.MONGO_URI;
 
 mongoose.connect(MONGO_URI)
   .then(() => {
